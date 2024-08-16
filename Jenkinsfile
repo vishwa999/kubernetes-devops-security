@@ -28,5 +28,6 @@ pipeline {
                 sh 'docker push ski00026/numeric-app:""$GIT_COMMIT""'
               }
            }
+        }
     }
 }
