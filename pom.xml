@@ -43,7 +43,12 @@
            <artifactId>jacoco-maven-plugin</artifactId>
            <version>0.8.6</version>
        </dependency>
-
+	   <!-- https://mvnrepository.com/artifact/org.jenkins-ci.plugins/pitmutation -->
+      <dependency>
+         <groupId>org.jenkins-ci.plugins</groupId>
+         <artifactId>pitmutation</artifactId>
+         <version>1.0-17</version>
+      </dependency>
 	</dependencies>
 
 	<build>
