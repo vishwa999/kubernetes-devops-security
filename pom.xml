@@ -68,11 +68,18 @@
                 <version>1.5.0</version>
 				<dependencies>
 				  <dependency>
-                     <groupId>org.jenkins-ci.plugins</groupId>
-                     <artifactId>pitmutation</artifactId>
+                     <groupId>org.pitest</groupId>
+                     <artifactId>pitest-junit5-plugin</artifactId>
                      <version>0.12</version>
                    </dependency>
 				</dependencies>
+				<configuration>
+				  <mutationThreshould>70</mutationThreshould>
+				  <outputFormats>
+				      <outputFormat>XML</outputFormat>
+					  <outputFormat>HTML</outputFormat>
+				  </outputFormats>
+				</configuration>
             </plugin>
         </plugins>
     </build>
