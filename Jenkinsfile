@@ -33,7 +33,15 @@ pipeline {
 
       stage('SonarQube Analysis') {
             steps{
-                  sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=Numeric-devsecops -Dsonar.projectName='Numeric-devsecops'"
+                 withSonarQubeEnv('SonarQube'){
+                    sh "mvn sonar:sonar -Dsonar.projectKey=Numeric-devsecops -Dsonar.projectName='Numeric-devsecops'"
+                 }
+                 timeout(time:2,unit: 'MINUTES'){
+                  script{
+                    waitForQualityGate abortPipeline: true
+                  }
+                 }
+                  
             }
         }
 
