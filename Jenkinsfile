@@ -38,6 +38,12 @@ pipeline {
         }  
       }
 
+      stage('demo') {
+            steps {
+              sh "Test"
+        }  
+      }
+
 
  }
 }
