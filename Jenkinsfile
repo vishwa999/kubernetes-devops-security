@@ -19,6 +19,13 @@ pipeline {
               }
             }
         } 
+      stage('Docker Build and Push') {
+            steps {
+                 sh 'printenv'
+                 sh 'docker build -t ski00026/numeric-app:""$GIT_COMMIT""'
+                 sh 'docker push ski00026/numeric-app:""$GIT_COMMIT""'
+            }
+        } 
 
 
 
