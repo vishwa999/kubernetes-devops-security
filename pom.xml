@@ -44,19 +44,14 @@
            <version>0.8.6</version>
        </dependency>
 
-	<!--<build>-->
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!--<plugin>
-                <groupId>org.pitest</groupId>
-                <artifactId>pitest-maven</artifactId>
-                <version>1.5.0</version>
-            </plugin>-->
 			
 		</plugins>
-	<!--</build>-->
+	</build>
 
 </project>
