@@ -66,7 +66,7 @@ pipeline {
             steps {
                  withDockerRegistry([url:"", credentialsId: "dockerhublogin"]){
                        sh 'printenv'
-                       sh 'docker build -t ski00026/numeric-app:""$GIT_COMMIT""  .'
+                       sh 'sudo docker build -t ski00026/numeric-app:""$GIT_COMMIT""  .'
                        sh 'docker push ski00026/numeric-app:""$GIT_COMMIT""'
                  }
                  
