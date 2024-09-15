@@ -46,12 +46,12 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.8.6</version>
         </dependency>
-		<!-- https://mvnrepository.com/artifact/org.owasp/dependency-check-maven -->
+		<!-- https://mvnrepository.com/artifact/org.owasp/dependency-check-maven 
        <dependency>
              <groupId>org.owasp</groupId>
              <artifactId>dependency-check-maven</artifactId>
              <version>9.1.0</version>
-       </dependency>
+       </dependency>-->
 
         
 
@@ -85,6 +85,15 @@
 				      <outputFormat>XML</outputFormat>
 					  <outputFormat>HTML</outputFormat>
 				  </outputFormats>
+				</configuration>
+            </plugin>
+			<plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>10.0.4</version>
+				<configuration>
+				  <format>ALL</format>
+				  <failBuildOnCVSS>5</failBuildOnCVSS>
 				</configuration>
             </plugin>
         </plugins>
