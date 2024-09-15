@@ -8,27 +8,28 @@ pipeline {
               archive 'target/*.jar'
             }
         } 
+
       stage('Unit tests') {
             steps {
               sh "mvn test"
             }
-            post{
-              always{
-                 junit 'target/surefire-reports/*.xml'
-                 jacoco execPattern:'target/jacoco.exec'
-              }
-            }
+            // post{
+            //   always{
+            //      junit 'target/surefire-reports/*.xml'
+            //      jacoco execPattern:'target/jacoco.exec'
+            //   }
+            // }
         } 
 
       stage('Mutation test stage -> PIT'){
            steps {
                sh "mvn org.pitest:pitest-maven:mutationCoverage"
            }
-           post{
-             always{
-              pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
-             }
-           }
+          //  post{
+          //    always{
+          //     pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+          //    }
+          //  }
       }
 
       // stage('SonarQube Analysis') {
@@ -49,11 +50,11 @@ pipeline {
           steps{
                 sh "mvn dependency-check:check"
           }
-          post{
-            always{
-              dependencyCheckPublisher pattern: "target/dependency-check-report.xml"
-            }
-          }
+          // post{
+          //   always{
+          //     dependencyCheckPublisher pattern: "target/dependency-check-report.xml"
+          //   }
+          // }
         }
 
 
@@ -75,9 +76,23 @@ pipeline {
             }
         }  
       }
+   }
+
+
+      post {
+              always{
+                 junit 'target/surefire-reports/*.xml'
+                 jacoco execPattern:'target/jacoco.exec'
+                 pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
+                 dependencyCheckPublisher pattern: "target/dependency-check-report.xml"
+              }
+              
+            }
+
+      
 
     
 
 
+
  }
-}
