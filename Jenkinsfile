@@ -48,13 +48,17 @@ pipeline {
 
         stage('Valunerability scan - Docker'){
           steps{
-                sh "mvn dependency-check:check"
+            parallel{
+              "Depenedency Scan": {
+                      sh "mvn dependency-check:check"
+              },
+              "Trivy Scan": {
+                sh "bash trivy-docker-image-scan.sh"
+              }
+            }
+                
           }
-          // post{
-          //   always{
-          //     dependencyCheckPublisher pattern: "target/dependency-check-report.xml"
-          //   }
-          // }
+         
         }
 
 
@@ -76,6 +80,8 @@ pipeline {
             }
         }  
       }
+
+
    }
 
 
@@ -86,7 +92,7 @@ pipeline {
                  pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
                  dependencyCheckPublisher pattern: "target/dependency-check-report.xml"
               }
-              
+
             }
 
       
