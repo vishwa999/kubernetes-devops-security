@@ -73,13 +73,13 @@ pipeline {
             }
         }
 
-      stage(' valunerability scan for k8s'){
+      stage('Valunerability scan for k8s'){
         steps{
            sh "bash kube-sec-scan.sh"
         }
       }
 
-      
+
       stage('K8s Deployment-DEV') {
             steps {
               withKubeConfig([credentialsId: 'kubeconfig']){
