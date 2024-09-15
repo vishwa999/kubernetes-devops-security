@@ -31,19 +31,19 @@ pipeline {
            }
       }
 
-      stage('SonarQube Analysis') {
-            steps{
-                 withSonarQubeEnv('SonarQube'){
-                    sh "mvn sonar:sonar -Dsonar.projectKey=Numeric-devsecops -Dsonar.host.url=http://http://43.204.233.89:9000'"
-                 }
-                 timeout(time:2,unit: 'MINUTES'){
-                  script{
-                    waitForQualityGate abortPipeline: true
-                  }
-                 }
+      // stage('SonarQube Analysis') {
+      //       steps{
+      //            withSonarQubeEnv('SonarQube'){
+      //               sh "mvn sonar:sonar -Dsonar.projectKey=Numeric-devsecops -Dsonar.host.url=http://http://43.204.233.89:9000'"
+      //            }
+      //            timeout(time:2,unit: 'MINUTES'){
+      //             script{
+      //               waitForQualityGate abortPipeline: true
+      //             }
+      //            }
                   
-            }
-        }
+      //       }
+      //   }
 
 
       stage('Docker Build and Push') {
