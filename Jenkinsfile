@@ -49,10 +49,10 @@ pipeline {
         stage('Valunerability scan - Docker'){
           steps{
             parallel{
-              "Depenedency Scan": {
-                      sh "mvn dependency-check:check"
-              },
-              "Trivy Scan": {
+              "Depenedency Scan" {
+                      sh "mvn dependency-check:check"},
+
+              "Trivy Scan"{
                 sh "bash trivy-docker-image-scan.sh"
               }
             }
