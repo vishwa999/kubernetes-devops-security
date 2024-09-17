@@ -91,6 +91,7 @@ pipeline {
 
       stage('OWASP -ZAP using open API'){
          steps{
+          withDockerRegistry([url:"", credentialsId: "dockerhublogin"])
           withKubeConfig([credentialsId: "kubeconfig"]){
             sh "bash zap.sh"
           } 
