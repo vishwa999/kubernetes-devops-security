@@ -2,14 +2,14 @@ pipeline {
   agent any
 
   stages {
-      stage('Build Artifact') {
+      stage('Build Artifact Maven') {
             steps {
               sh "mvn clean package -DskipTests=true"
               archive 'target/*.jar'
             }
         } 
 
-      stage('Unit tests') {
+      stage('Unit test coverage using JACOCO') {
             steps {
               sh "mvn test"
             }
@@ -21,7 +21,7 @@ pipeline {
             // }
         } 
 
-      stage('Mutation test stage -> PIT'){
+      stage('Mutation test, Test Unit Test -> PIT'){
            steps {
                sh "mvn org.pitest:pitest-maven:mutationCoverage"
            }
@@ -32,21 +32,21 @@ pipeline {
           //  }
       }
 
-      // stage('SonarQube Analysis') {
-      //       steps{
-      //            withSonarQubeEnv('SonarQube'){
-      //               sh "mvn sonar:sonar -Dsonar.projectKey=Numeric-devsecops -Dsonar.host.url=http://http://43.204.233.89:9000'"
-      //            }
-      //            timeout(time:2,unit: 'MINUTES'){
-      //             script{
-      //               waitForQualityGate abortPipeline: true
-      //             }
-      //            }
+      stage('SonarQube Analysis') {
+            steps{
+                 withSonarQubeEnv('SonarQube'){
+                    sh "mvn sonar:sonar -Dsonar.projectKey=Numeric-devsecops -Dsonar.host.url=http://13.201.77.16:9000'"
+                 }
+                //  timeout(time:2,unit: 'MINUTES'){
+                //   script{
+                //     waitForQualityGate abortPipeline: true
+                //   }
+                //  }
                   
-      //       }
-      //   }
+            }
+        }
 
-                  stage('Vulnerability scan - Docker') {
+                  stage('Vulnerability scan - Docker using Trivy and Dep scan') {
                     steps {
                       parallel(
                         "Dependency Scan": {
@@ -73,7 +73,7 @@ pipeline {
             }
         }
 
-      stage('Valunerability scan for k8s'){
+      stage('Valunerability scan for k8s using KubeSec'){
         steps{
            sh "bash kube-sec-scan.sh"
         }
@@ -89,6 +89,15 @@ pipeline {
         }  
       }
 
+      stage('OWASP -ZAP using open API'){
+         steps{
+          withKubeConfig([credentialsId: "kubeconfig"]){
+            sh "bash zap.sh"
+          } 
+         }
+
+      }
+
 
    }
 
@@ -99,6 +108,7 @@ pipeline {
                  jacoco execPattern:'target/jacoco.exec'
                  pitmutation mutationStatsFile: '**/target/pit-reports/**/mutations.xml'
                  dependencyCheckPublisher pattern: "target/dependency-check-report.xml"
+                 publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'OWASP ZAP HTML Report', reportTitles: 'OWASP ZAP HTML Report', useWrapperFileDirectly: true])
               }
 
             }
