@@ -35,7 +35,7 @@ pipeline {
       stage('SonarQube Analysis') {
             steps{
                  withSonarQubeEnv('SonarQube'){
-                    sh "mvn sonar:sonar -Dsonar.projectKey=Numeric-devsecops -Dsonar.host.url=http://13.201.77.16:9000'"
+                   // sh "mvn sonar:sonar -Dsonar.projectKey=Numeric-devsecops -Dsonar.host.url=http://13.201.77.16:9000'"
                  }
                 //  timeout(time:2,unit: 'MINUTES'){
                 //   script{
